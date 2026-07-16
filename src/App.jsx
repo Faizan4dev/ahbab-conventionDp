@@ -20,9 +20,6 @@ function App() {
       <p>
         Upload your picture and download your DP.
       </p>
-      <p>
-        
-      </p>
 
       <UploadButton setImage={setImage} />
 
