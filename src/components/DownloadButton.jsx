@@ -1,35 +1,58 @@
-import { drawDP } from "../utils/drawDp";
+import { useState } from "react";
+import { drawDP } from "../utils/drawDP";
 
 export default function DownloadButton({ image }) {
+
+  const [isDownloading, setIsDownloading] = useState(false);
+
   async function handleDownload() {
-    const canvas = document.createElement("canvas");
 
-    await drawDP(canvas, image, 2048);
+    if (isDownloading) return;
 
-    const link = document.createElement("a");
+    setIsDownloading(true);
 
-    link.download = "campaign-dp.png";
+    try {
 
-    link.href = canvas.toDataURL("image/png");
+      const canvas = document.createElement("canvas");
 
-    link.click();
+      await drawDP(canvas, image, 2048);
+
+      const link = document.createElement("a");
+
+      link.download = "campaign-dp.png";
+
+      link.href = canvas.toDataURL("image/png");
+
+      link.click();
+
+    } finally {
+
+      setTimeout(() => {
+        setIsDownloading(false);
+      }, 500);
+
+    }
+
   }
 
   return (
     <button
       onClick={handleDownload}
+      disabled={isDownloading}
       style={{
         marginTop: "30px",
-        background: "#16a34a",
+        background: isDownloading ? "#94a3b8" : "#16a34a",
         color: "#fff",
         padding: "14px 30px",
         borderRadius: "10px",
         border: "none",
-        cursor: "pointer",
+        cursor: isDownloading ? "not-allowed" : "pointer",
         fontSize: "16px",
+        opacity: isDownloading ? 0.8 : 1,
+        transition: "all .2s"
       }}
     >
-      Download DP
+      {isDownloading ? "⏳ Preparing Download..." : "⬇ Download DP"}
     </button>
   );
 }
