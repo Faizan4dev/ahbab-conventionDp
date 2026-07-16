@@ -8,8 +8,8 @@ import "./App.css";
 
 function App() {
   const [image, setImage] = useState(null);
+  const [isGenerating, setIsGenerating] = useState(false);
 
-  // Preview canvas
   const previewCanvasRef = useRef(null);
 
   return (
@@ -21,14 +21,28 @@ function App() {
         Upload your picture and download your DP.
       </p>
 
-      <UploadButton setImage={setImage} />
+      <UploadButton
+        setImage={setImage}
+        setIsGenerating={setIsGenerating}
+      />
+
+      {isGenerating && (
+        <div className="status">
+          ⏳ Generating your DP...
+        </div>
+      )}
 
       <PreviewCanvas
         image={image}
         canvasRef={previewCanvasRef}
+        setIsGenerating={setIsGenerating}
       />
-      <p className="text-red-500">If image isn't generated correctly, upload any image with face focued</p>
-      {image && (
+
+      <p className="text-red-500">
+        If image isn't generated correctly, upload an image with the face clearly visible.
+      </p>
+
+      {image && !isGenerating && (
         <DownloadButton image={image} />
       )}
 

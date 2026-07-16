@@ -1,15 +1,31 @@
 import { useEffect } from "react";
 import { drawDP } from "../utils/drawDP";
 
-export default function PreviewCanvas({ image, canvasRef }) {
+export default function PreviewCanvas({
+    image,
+    canvasRef,
+    setIsGenerating
+}) {
 
     useEffect(() => {
 
         if (!image) return;
 
-        drawDP(canvasRef.current, image, 500);
+        async function generate(){
 
-    }, [image, canvasRef]);
+            await drawDP(
+                canvasRef.current,
+                image,
+                500
+            );
+
+            setIsGenerating(false);
+
+        }
+
+        generate();
+
+    }, [image]);
 
     return (
         <canvas
