@@ -1,4 +1,4 @@
-import frame from "../assets/frame.png";
+import frame from "../assets/frame2.png";
 import { getCoverCrop } from "./coverCrop";
 
 const ORIGINAL_SIZE = 2048;
